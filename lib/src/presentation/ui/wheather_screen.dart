@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app/src/core/apis.dart';
+import 'package:news_app/src/core/service_locator.dart';
+import 'package:news_app/src/domain/model/location_model/lat_lang.dart';
 
 class WheaterScreen extends StatefulWidget {
   const WheaterScreen({super.key});
@@ -9,6 +12,19 @@ class WheaterScreen extends StatefulWidget {
 }
 
 class _WheaterScreenState extends State<WheaterScreen> {
+
+  List<LatLang> data =[];
+
+  @override
+  void initState() {
+        super.initState();
+
+  }
+  void getLocation()async{
+    final apik = Apis();
+    data.addAll(await repository.fetchLatLang(apik));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,0 +1,122 @@
+
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+
+part 'lat_lang.freezed.dart';
+part 'lat_lang.g.dart';
+
+@freezed
+class LatLang with _$LatLang{
+  @JsonSerializable(explicitToJson: true)
+  const factory LatLang({
+    required String name,
+    required Map local_names,
+    required double lat,
+    required double lon,
+    required String country,
+})= _LatLang;
+
+  factory LatLang.fromJson(Map<String,Object?> json)=> _$LatLangFromJson(json);
+}
+
+final json = {
+  {
+    "name": "Tashkent",
+    "local_names": {
+      "nl": "Tasjkent",
+      "bn": "তাশখন্দ",
+      "fr": "Tachkent",
+      "lt": "Taškentas",
+      "uk": "Ташкент",
+      "cs": "Taškent",
+      "ky": "Ташкен",
+      "ar": "طشقند",
+      "et": "Toshkent",
+      "ka": "ტაშკენტი",
+      "ie": "Tashkent",
+      "sr": "Ташкент",
+      "mn": "Ташкент",
+      "af": "Tasjkent",
+      "oc": "Tashkent",
+      "pl": "Taszkent",
+      "eo": "Taŝkento",
+      "fa": "تاشکند",
+      "ur": "تاشقند",
+      "ta": "தாஷ்கந்து",
+      "uz": "Toshkent",
+      "hy": "Տաշքենդ",
+      "kk": "Ташкент",
+      "he": "טשקנט",
+      "is": "Taskent",
+      "mr": "ताश्कंद",
+      "ca": "Taixkent",
+      "eu": "Tashkent",
+      "tr": "Taşkent",
+      "kv": "Ташкент",
+      "fi": "Taškent",
+      "ku": "Taşkent, Ûzbêkistan",
+      "yo": "Tashkent",
+      "sh": "Taškent",
+      "sv": "Tasjkent",
+      "gd": "Tashkent",
+      "gl": "Tashkent",
+      "tt": "Ташкент",
+      "vo": "Toshkent",
+      "ascii": "Tashkent",
+      "ml": "താഷ്കന്റ്",
+      "el": "Τασκένδη",
+      "cy": "Tashkent",
+      "io": "Tashkent",
+      "nn": "Tasjkent",
+      "it": "Tashkent",
+      "az": "Daşkənd",
+      "fy": "Tasjkent",
+      "sq": "Tashkenti",
+      "ms": "Tashkent",
+      "vi": "Tashkent",
+      "id": "Tashkent",
+      "en": "Tashkent",
+      "tl": "Tashkent",
+      "tg": "Тошканд",
+      "sk": "Taškent",
+      "ps": "تاشكند",
+      "tk": "Daşkent",
+      "sw": "Tashkent",
+      "th": "ทาชเคนต์",
+      "bo": "ཐ་ཧྲི་ཀན།",
+      "de": "Taschkent",
+      "bg": "Ташкент",
+      "zh": "塔什干",
+      "ug": "Tashkent",
+      "hu": "Taskent",
+      "te": "తాష్కెంట్",
+      "br": "Tochkent",
+      "os": "Ташкент",
+      "feature_name": "Tashkent",
+      "pt": "Tashkent",
+      "hi": "ताशकन्द",
+      "cv": "Ташкент",
+      "ga": "Tashkent",
+      "ja": "タシュケント",
+      "lv": "Taškenta",
+      "es": "Taskent",
+      "la": "Taskentum",
+      "da": "Tasjkent",
+      "kn": "ತಾಷ್ಕೆಂಟ್",
+      "bs": "Taškent",
+      "be": "Ташкент",
+      "yi": "טאשקענט",
+      "am": "ታሽኬንት",
+      "ht": "Tachkènt",
+      "ko": "타슈켄트",
+      "no": "Tasjkent",
+      "mk": "Ташкент",
+      "hr": "Taškent",
+      "ru": "Ташкент",
+      "ro": "Tașkent"
+    },
+    "lat": 41.3123363,
+    "lon": 69.2787079,
+    "country": "UZ"
+  }
+};
