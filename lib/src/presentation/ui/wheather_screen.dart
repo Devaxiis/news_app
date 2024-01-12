@@ -18,11 +18,14 @@ class _WheaterScreenState extends State<WheaterScreen> {
   @override
   void initState() {
         super.initState();
+         getLocation();
 
   }
   void getLocation()async{
     final apik = Apis();
     data.addAll(await repository.fetchLatLang(apik));
+    setState(() {
+    });
   }
 
   @override

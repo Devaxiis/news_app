@@ -1,4 +1,4 @@
-class Apis{
+ class Apis{
 
   static const String baseUrl = "newsapi.org";
   static const String baseUrlLocation = "api.openweathermap.org";
@@ -7,9 +7,10 @@ class Apis{
   static const String getLocation ="/geo/1.0/direct";
 
 
+  final d = DateTime.now();
   Map<String,String> get getQuery => {
     "q":"tesla",
-    "from":"2023-12-11",
+    "from":"2023-12-${d.day - 1}",
     "sortBy":"publishedAt",
     "apiKey":"b7199e3f6274404f8e17571e04aa6b0e",
   };
@@ -18,6 +19,10 @@ class Apis{
     "q":"Toshkent",
     "limit":"1",
     "appid":"b3a4e5ad58628b1a96b83f1add25bf16",
+  };
+
+  static const Map<String,String> header = {
+    'x-api-key': 'b3a4e5ad58628b1a96b83f1add25bf16',
   };
 
 

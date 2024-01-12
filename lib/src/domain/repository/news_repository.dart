@@ -21,7 +21,7 @@ class NewRepositoryImplement implements NewsRepository{
   @override
   Future<List<NewsModel>> fetchAllData(Apis apik)async {
     String response = await network.getMethod(api: Apis.getUrl,query: apik.getQuery)??"[]";
-    Map item = jsonDecode(response) as Map;
+    Map item = jsonDecode(response);
     print("===Item: -------$item---------");
     List data = item["articles"];
     print("===DataArticle ----$data----");
@@ -32,9 +32,9 @@ class NewRepositoryImplement implements NewsRepository{
 
   @override
   Future<List<LatLang>> fetchLatLang(Apis apik) async{
-    String response = await network.getMethod(api: Apis.getUrl,query: apik.getLocationQuery)??"[]";
+    String response = await network.getLatMethod(api: Apis.getLocation,query: apik.getLocationQuery)??"[]";
     List data = jsonDecode(response) ;
-    print("===Item: -------$data---------");
+    print("===Item2: -------$data---------");
     List<LatLang> value = data.map((json) => LatLang.fromJson(json)).toList();
     print("Value; $value");
     return value;

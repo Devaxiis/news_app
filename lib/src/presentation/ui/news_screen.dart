@@ -24,8 +24,10 @@ class _NewsScreenState extends State<NewsScreen> {
   }
 
   void dataGet() async {
+    final s = DateTime.now();
     final api = Apis();
     gazetaNews.addAll(await repository.fetchAllData(api));
+    print("${s.day - 1}");
     setState(() {});
   }
 

@@ -7,7 +7,7 @@ import 'package:news_app/src/core/apis.dart';
 
 abstract class Network{
   Future<String?> getMethod({required String api, String baseUrl = Apis.baseUrl,required Map<String, String> query});
-  Future<String?> getLatMethod({required String api, String baseUrl = Apis.baseUrl,required Map<String, String> query});
+  Future<String?> getLatMethod({required String api, Map<String,String> header,String baseUrl = Apis.baseUrl,required Map<String, String> query});
 }
 
 
@@ -19,8 +19,9 @@ class GetNetwork implements Network{
     try{
       final Uri url = Uri.https(baseUrl,api,query);
       final response = await http.get(url,);
-      if(response.statusCode == 200){
         print("Response ${response.body}");
+      if(response.statusCode == 200){
+        print("Response2 ${response.body}");
         return utf8.decoder.convert(response.bodyBytes);
       }
     }catch(e){
@@ -30,13 +31,14 @@ class GetNetwork implements Network{
   }
 
   @override
-  Future<String?> getLatMethod({required String api, String baseUrl = Apis.baseUrlLocation, required Map<String, String> query}) async{
+  Future<String?> getLatMethod({required String api, Map<String,String> header = Apis.header,String baseUrl = Apis.baseUrlLocation, required Map<String, String> query}) async{
     try{
       final Uri url = Uri.https(baseUrl,api,query);
-      final response = await http.get(url);
+      print("====Url===$url");
+      final response = await http.get(url,headers: header);
       if(response.statusCode == 200){
         print("Response ${response.body}");
-        return utf8.decoder.convert(response.bodyBytes);
+        return response.body;
       }
     }catch(e){
       return null;
