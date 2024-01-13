@@ -35,13 +35,21 @@ int page =0;
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value){
           page = value;
-          controller.animateToPage(page, duration: Duration(seconds: 2), curve: Curves.fastLinearToSlowEaseIn);
+          controller.animateToPage(page, duration: const Duration(seconds: 2), curve: Curves.fastLinearToSlowEaseIn);
             setState(() {});
         },
+        selectedLabelStyle: GoogleFonts.plusJakartaSans(
+          fontSize: 14,
+          fontWeight: FontWeight.w700
+        ),
+        unselectedLabelStyle: GoogleFonts.plusJakartaSans(
+          fontSize: 13,
+          fontWeight: FontWeight.w700
+      ),
         currentIndex: page,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.ac_unit),label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.sunny_snowing),label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.ac_unit),label: "Discover"),
+          BottomNavigationBarItem(icon: Icon(Icons.sunny_snowing),label: "Wheather"),
         ],
       ),
     );
