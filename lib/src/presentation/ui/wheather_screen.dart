@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:location/location.dart';
+// import 'package:location/location.dart';
 import 'package:news_app/src/core/service_locator.dart';
 import 'package:news_app/src/domain/model/wheather_model/name_model/whather_model.dart';
 import 'package:news_app/src/presentation/bloc/wheather/wheather_bloc.dart';
@@ -25,42 +25,42 @@ class _WheaterScreenState extends State<WheaterScreen> {
   @override
   void initState(){
     super.initState();
-    getLocation().then((value) {
-    getRequest();
-    });
+    // getLocation().then((value) {
+    // getRequest();
+    // });
   }
 
-  Future<void> getRequest() async {
-    Map<String, String> query = {
-      "lat": "${_locationData.latitude}",
-      "lon": "${_locationData.longitude}",
-      "appid": "b3a4e5ad58628b1a96b83f1add25bf16",
-    };
-    data.addAll(await repository.fetchWheather(query));
-  }
+  // Future<void> getRequest() async {
+  //   Map<String, String> query = {
+  //     "lat": "${_locationData.latitude}",
+  //     "lon": "${_locationData.longitude}",
+  //     "appid": "b3a4e5ad58628b1a96b83f1add25bf16",
+  //   };
+  //   data.addAll(await repository.fetchWheather(query));
+  // }
 
-  Location location = Location();
-  late bool _serviceEnabled;
-  late PermissionStatus _permissionGranted;
-  late LocationData _locationData;
-
-  Future<dynamic> getLocation() async {
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) _serviceEnabled = await location.requestService();
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-    }
-    _locationData = await location.getLocation();
-  }
+  // Location location = Location();
+  // late bool _serviceEnabled;
+  // late PermissionStatus _permissionGranted;
+  // late LocationData _locationData;
+  //
+  // Future<dynamic> getLocation() async {
+  //   _serviceEnabled = await location.serviceEnabled();
+  //   if (!_serviceEnabled) _serviceEnabled = await location.requestService();
+  //   _permissionGranted = await location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await location.requestPermission();
+  //   }
+  //   _locationData = await location.getLocation();
+  // }
 
 
   @override
   Widget build(BuildContext context) {
-    getRequest().then((value) {
-      title = data[0].main;
-      desc = data[0].description;
-    });
+    // getRequest().then((value) {
+    //   title = data[0].main;
+    //   desc = data[0].description;
+    // });
 
     return Scaffold(
       appBar: AppBar(

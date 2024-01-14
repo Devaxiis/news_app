@@ -1,18 +1,17 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:news_app/src/core/apis.dart';
-import 'package:news_app/src/core/service_locator.dart';
 import 'package:news_app/src/domain/model/location_model/lat_lang.dart';
 import 'package:news_app/src/domain/model/wheather_model/name_model/whather_model.dart';
+import 'package:news_app/src/domain/repository/news_repository.dart';
 
 part 'wheather_event.dart';
 
 part 'wheather_state.dart';
 
 class WheatherBloc extends Bloc<WheatherEvent, WheatherState> {
-  WheatherBloc() : super(WheatherInitial()) {
+  final NewRepositoryImplement repository;
+
+  WheatherBloc(this.repository) : super(WheatherInitial()) {
     on<WheatherBlocEvent>(_wheatherGet);
   }
 
@@ -41,6 +40,6 @@ class WheatherBloc extends Bloc<WheatherEvent, WheatherState> {
     final String title = wz[0].main;
     final String desc = wz[0].description;
 
-   emit(WheatherSuccess(name: event.title,title: title,desc: desc));
+    emit(WheatherSuccess(name: event.title, title: title, desc: desc));
   }
 }
