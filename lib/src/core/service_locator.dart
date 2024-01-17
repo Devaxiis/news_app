@@ -7,8 +7,9 @@ late final NewsRepository repository;
 GetIt setupLocator() {
   GetIt locator = GetIt.instance;
   locator.registerSingleton<GetNetwork>(const GetNetwork());
-  locator.registerSingleton(
-      NewRepositoryImplement(network: locator<GetNetwork>()));
+  locator.registerSingleton(NewRepositoryImplement(network: locator<GetNetwork>()));
   repository = locator<NewRepositoryImplement>();
   return locator;
 }
+
+

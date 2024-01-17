@@ -20,7 +20,7 @@
   Map<String,String> get getLocationQuery => {
     "q":"Toshkent",
     "limit":"1",
-    "appid":"b3a4e5ad58628b1a96b83f1add25bf16",
+    "appid":"b7199e3f6274404f8e17571e04aa6b0e",
   };
   Map<String,String> get getWheatherQuery => {
     "lat":"",

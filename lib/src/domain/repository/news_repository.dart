@@ -1,12 +1,13 @@
 import 'dart:convert';
-
+import 'package:location/location.dart';
 import 'package:news_app/src/core/apis.dart';
 import 'package:news_app/src/data/db_service.dart';
-import 'package:news_app/src/domain/model/gazeta/gazeta_model.dart';
 import 'package:news_app/src/domain/model/location_model/lat_lang.dart';
 import 'package:news_app/src/domain/model/news_model/news_model.dart';
+import 'package:news_app/src/domain/model/wheather_model/main_model/main_model.dart';
 import 'package:news_app/src/domain/model/wheather_model/name_model/whather_model.dart';
 import 'package:news_app/src/domain/model/wheather_model/obhavo.dart';
+import 'package:news_app/src/domain/model/wheather_model/sys_model/sys_model.dart';
 
 abstract class NewsRepository {
   Future<List<NewsModel>> fetchAllData(Apis apik);
@@ -14,6 +15,10 @@ abstract class NewsRepository {
   Future<List<LatLang>> fetchLatLang(Map<String, String> query);
 
   Future<List<WhatherModel>> fetchWheather(Map<String, String> query);
+
+  Future<String> fetchCountry(Map<String, String> query);
+
+  Future<List> getLocation();
 }
 
 class NewRepositoryImplement implements NewsRepository {
@@ -50,8 +55,7 @@ class NewRepositoryImplement implements NewsRepository {
   /// #Wheather
   @override
   Future<List<WhatherModel>> fetchWheather(Map<String, String> query) async {
-    String response =
-        await network.getWheatherMethod(api: Apis.getWheather, query: query) ??
+    String response =await network.getWheatherMethod(api: Apis.getWheather, query: query) ??
             "[]";
     Map json = jsonDecode(response) as Map;
     print("===Item3: -------$json---------");
@@ -61,4 +65,39 @@ class NewRepositoryImplement implements NewsRepository {
     print("Value; $value");
     return value;
   }
+
+
+  @override
+  Future<String> fetchCountry(Map<String, String> query) async {
+    String response = await network.getWheatherMethod(api: Apis.getWheather, query: query) ?? "[]";
+    Map json = jsonDecode(response) as Map;
+    print("===Sys: -------$json---------");
+    String data = json["name"];
+    print("Value; $data");
+    return data;
+  }
+
+    @override
+  Future<List> getLocation() async {
+     List list =[];
+     Location location = Location();
+     late bool serviceEnabled;
+     late PermissionStatus permissionGranted;
+     late LocationData locationData;
+
+      serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) serviceEnabled = await location.requestService();
+      permissionGranted = await location.hasPermission();
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+      }
+      locationData = await location.getLocation();
+      list.add(locationData.latitude);
+      list.add(locationData.longitude);
+      print("BuList:::::::$list");
+      return list;
+     }
+
 }
+
+
