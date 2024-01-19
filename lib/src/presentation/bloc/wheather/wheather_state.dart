@@ -19,8 +19,9 @@ class WheatherSuccess extends WheatherState {
   final String name;
   final String title;
   final String desc;
+  final int temp;
 
-  const WheatherSuccess({required this.name,required this.title,required this.desc});
+  const WheatherSuccess({required this.name,required this.title,required this.desc,required this.temp});
 
   @override
   List<Object> get props => [name,title,desc,];

@@ -42,11 +42,12 @@ class WheatherBloc extends Bloc<WheatherEvent, WheatherState> {
       "appid": "b3a4e5ad58628b1a96b83f1add25bf16",
     };
     wz.addAll(await repository.fetchWheather(query));
+    final temp = await repository.fetchTemp(query);
     final String title = wz[0].main;
     final String desc = wz[0].description;
     final String icon = wz[0].icon;
 
-    emit(WheatherSuccess(name: event.title, title: title, desc: desc));
+    emit(WheatherSuccess(name: event.title, title: title, desc: desc,temp: temp));
   }
 }
 

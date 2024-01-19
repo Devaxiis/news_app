@@ -23,6 +23,8 @@ class _WheaterScreenState extends State<WheaterScreen> {
   String description = '';
   String titleNul = '';
   // List<SysModel> country = [];
+  int temp = 0;
+  int temp2 = 0;
   String name = "";
   String title = "";
   String desc = "";
@@ -35,15 +37,14 @@ class _WheaterScreenState extends State<WheaterScreen> {
 
   Future<void> getData() async {
     final data = await repository.getLocation();
-    print("GetLoc::== $data");
-    print("GetLoc::== ${data[0]}");
-    print("GetLoc::== ${data[1]}");
+
     Map<String, String> query = {
       "lat": "${data[0]}",
       "lon": "${data[1]}",
       "appid": "b3a4e5ad58628b1a96b83f1add25bf16",
     };
     name = await repository.fetchCountry(query);
+    temp = await repository.fetchTemp(query);
     listData.addAll(await repository.fetchWheather(query));
     setState(() {});
   }
@@ -54,6 +55,7 @@ class _WheaterScreenState extends State<WheaterScreen> {
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
+        backgroundColor: Colors.transparent,
         title: Text(
           "Wheather",
           style: GoogleFonts.plusJakartaSans(
@@ -68,114 +70,103 @@ class _WheaterScreenState extends State<WheaterScreen> {
             name = state.name;
             title = state.title;
             desc = state.desc;
+            temp = state.temp ;
           }
         },
         child: SafeArea(
           child: Stack(
             children: [
-            SizedBox.expand(child: Image(image: const AssetImage("assets/back.jpg"),fit: BoxFit.cover,)),
+            const SizedBox.expand(child: Image(image: AssetImage("assets/images/back.jpg"),fit: BoxFit.cover,)),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    BlocBuilder<WheatherBloc, WheatherState>(
-                      builder: (context, state) {
-                        return TextField(
-                          controller: controllerSearch,
-                          decoration: InputDecoration(
-                            hintText: "Search wheather",
-                            suffixIcon: IconButton(
-                                onPressed: () {
-                                  context.read<WheatherBloc>().add(
-                                      WheatherBlocEvent(
-                                          title: controllerSearch.text.trim()));
-                                  controllerSearch.text = "";
-                                },
-                                icon: const Icon(
-                                  Icons.search,
-                                  color: Colors.deepPurpleAccent,
-                                )),
-                            border: const UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.deepPurpleAccent)),
-                            focusedBorder: const UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.deepPurpleAccent)),
-                          ),
-                        );
-                      },
-                    ),
-                    const Spacer(),
-                    BlocBuilder<WheatherBloc, WheatherState>(
-                      builder: (context, state) {
-                        return Container(
-                          height: 200,
-                          width: MediaQuery.sizeOf(context).width,
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(12)),
-                            border: state is WheatherSuccess
-                                ? Border.all(
-                                    color: Colors.deepPurpleAccent, width: 1.5)
-                                : Border.all(
-                                    color: const Color(0x66818181), width: 1.5),
-                          ),
-                          child: BlocBuilder<WheatherBloc, WheatherState>(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      BlocBuilder<WheatherBloc, WheatherState>(
+                        builder: (context, state) {
+                          return TextField(
+                            textInputAction: TextInputAction.send,
+                            controller: controllerSearch,
+                            decoration: InputDecoration(
+                              hintText: "Search wheather",
+                              suffixIcon: IconButton(
+                                  onPressed: () {
+                                    context.read<WheatherBloc>().add(
+                                        WheatherBlocEvent(
+                                            title: controllerSearch.text.trim()));
+                                    controllerSearch.text = "";
+                                  },
+                                  icon: const Icon(
+                                    Icons.search,
+                                    color: Colors.deepPurpleAccent,
+                                  )),
+                              border: const UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.deepPurpleAccent)),
+                              focusedBorder: const UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.deepPurpleAccent)),
+                            ),
+                          );
+                        },
+                      ),
+                       const SizedBox(height: 120),
+                      BlocBuilder<WheatherBloc, WheatherState>(
+                        builder: (context, state) {
+                          return BlocBuilder<WheatherBloc, WheatherState>(
                             builder: (context, state) {
                               if (state is WheatherSuccess) {
                                 return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
+
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            "$temp ° C",
+                                            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "AbhayaLibre",
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            name,
+                                            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                                              color: Colors.deepPurpleAccent,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "AbhayaLibre",
+                                            ),
+                                            overflow: TextOverflow.clip,
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 200,),
                                     Text(
-                                      name,
-                                      style: GoogleFonts.plusJakartaSans(
-                                          color: Colors.deepPurpleAccent,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
+                                      listData[0].main,
+                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "AbhayaLibre",
+                                      ),
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Wheather:",
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.deepPurpleAccent,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        Text(title,
-                                            style: GoogleFonts.plusJakartaSans(
-                                                color: const Color(0xff14181e),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600)),
-                                      ],
+                                    const SizedBox(height: 60),
+                                    Text(
+                                      "0${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
+                                      style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "AbhayaLibre",
+                                      ),
                                     ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "Description:",
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: Colors.deepPurpleAccent,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        Text(
-                                          desc,
-                                          style: GoogleFonts.plusJakartaSans(
-                                              color: const Color(0xff14181e),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ],
-                                    ),
+
                                   ],
                                 );
                               } else {
@@ -187,58 +178,68 @@ class _WheaterScreenState extends State<WheaterScreen> {
                                           child: CircularProgressIndicator()));
                                 } else {
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
+
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              "$temp ° C",
+                                              style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: "AbhayaLibre",
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              name,
+                                              style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                                color: Colors.deepPurpleAccent,
+                                                fontWeight: FontWeight.w600,
+                                                fontFamily: "AbhayaLibre",
+                                              ),
+                                              overflow: TextOverflow.clip,
+                                              textAlign: TextAlign.right,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 100,
+                                      ),
                                       Text(
-                                        name,
-                                        style: GoogleFonts.plusJakartaSans(
-                                            color: Colors.deepPurpleAccent,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600),
+                                        listData[0].main,
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "AbhayaLibre",
+                                        ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Wheather:",
-                                            style: GoogleFonts.plusJakartaSans(
-                                                color: Colors.deepPurpleAccent,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Text(listData[0].main),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "Description:",
-                                            style: GoogleFonts.plusJakartaSans(
-                                                color: Colors.deepPurpleAccent,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Text(listData[0].description),
-                                        ],
+                                      const SizedBox(height: 60,),
+                                      Text(
+                                        "0${DateTime.now().month}/${DateTime.now().day}/${DateTime.now().year}",
+                                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily: "AbhayaLibre",
+                                        ),
                                       ),
                                     ],
                                   );
                                 }
                               }
                             },
-                          ),
-                        );
-                      },
-                    ),
-                    const Spacer(
-                      flex: 2,
-                    ),
-                  ],
+                          );
+                        },
+                      ),
+
+                    ],
+                  ),
                 ),
               ),
             ],

@@ -17,6 +17,7 @@ abstract class NewsRepository {
   Future<List<WhatherModel>> fetchWheather(Map<String, String> query);
 
   Future<String> fetchCountry(Map<String, String> query);
+  Future<int> fetchTemp(Map<String, String> query);
 
   Future<List> getLocation();
 }
@@ -73,8 +74,19 @@ class NewRepositoryImplement implements NewsRepository {
     Map json = jsonDecode(response) as Map;
     print("===Sys: -------$json---------");
     String data = json["name"];
-    print("Value; $data");
     return data;
+  }
+
+  @override
+  Future<int> fetchTemp(Map<String, String> query) async {
+    String response = await network.getWheatherMethod(api: Apis.getWheather, query: query) ?? "[]";
+    Map json = jsonDecode(response) as Map;
+    print("===HelloMirjalol: -------$json---------");
+    double data = json["main"]["temp"];
+    print("Temperature===== $data =======");
+    final value = data.toInt();
+    print("Temperature2===== $value =======");
+    return  value - 273;
   }
 
     @override
