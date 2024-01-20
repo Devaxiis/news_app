@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/src/presentation/ui/news_screen.dart';
 import 'package:news_app/src/presentation/ui/wheather_screen.dart';
-import 'package:news_app/src/presentation/ui/wheatherrrr.dart';
+
 
 class MainHomeScreen extends StatefulWidget {
   const MainHomeScreen({super.key});
@@ -24,7 +24,7 @@ int page =0;
           children: const [
             NewsScreen(),
             WheaterScreen(),
-            // WheatherIkki()
+          
           ],
         ),
       ),
