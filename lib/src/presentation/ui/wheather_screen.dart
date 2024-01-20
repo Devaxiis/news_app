@@ -180,7 +180,6 @@ class _WheaterScreenState extends State<WheaterScreen> {
                                   return Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [

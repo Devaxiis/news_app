@@ -66,8 +66,7 @@ class NewRepositoryImplement implements NewsRepository {
     print("Value; $value");
     return value;
   }
-
-
+  
   @override
   Future<String> fetchCountry(Map<String, String> query) async {
     String response = await network.getWheatherMethod(api: Apis.getWheather, query: query) ?? "[]";
